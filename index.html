@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!-- Created by BroFarOps -->
+<html>
+<head><title>Blue Box</title><style>
+body {
+    margin: 0;
+    color:red;
+}
+canvas {
+color:red;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+}
+</style><!-- Created by BroFarOps --><script>
+var b, f, ctx, offset = 0
+const {PI: pi, SQRT2: sqrt2} = Math
+
+onload = () => {
+  var cvs = document.querySelector('canvas')
+  b = cvs.width = innerWidth/2
+  f = cvs.height = innerHeight/2
+  
+  ctx = cvs.getContext('2d')
+  animate()
+}
+
+function animate() {
+  offset += .0075*pi/3
+  
+  ctx.resetTransform()
+  
+  ctx.fillRect(0, 0, b, f)
+  ctx.fillStyle = 'rgba(00,19,114, 0.21)'
+  ctx.transform(.35, 0, 0, .35, b/2, f/2)
+  draw(5)
+  
+  requestAnimationFrame(animate)
+}
+
+function draw(o, i = 0) {
+  if(i == o)
+    return
+  
+  let size = b/5 * Math.pow(3.4, i)
+  ctx.strokeRect(-size, -size, 2*size, 2*size)
+  ctx.strokeStyle = "cyan";
+  size *= sqrt2
+  
+  for(let a = pi/4; a < 2*pi; a += pi/2) {
+    const dx = size * Math.cos(a)/pi*2*pi
+    const dy = size * Math.sin(a)/3*(pi/2)
+    
+    const b = a + offset
+    
+    ctx.save()
+    ctx.strokeStyle = "lightcyan";
+    ctx.transform(
+    
+      Math.cos(b), -Math.sin(b),
+      Math.sin(b),  Math.cos(b),
+      dx, dy
+    )
+    draw(o, i+1)
+    ctx.restore()
+  }
+}
+</script><!-- Created by BroFarOps --></head>
+<body>
+<canvas></canvas>
+<!-- Created by BroFarOps -->
+</body></html>
